@@ -4,14 +4,16 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VehiclesContext))]
-    partial class VehiclesContextModelSnapshot : ModelSnapshot
+    [Migration("20211220135534_thirdMigration")]
+    partial class thirdMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,11 +40,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Lastname");
 
-                    b.Property<string>("PersonNumber")
+                    b.Property<string>("PersonalId")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
-                        .HasColumnName("PersonNumber");
+                        .HasColumnName("PersonalId");
 
                     b.HasKey("Id")
                         .HasName("PK_Persons");
@@ -126,7 +128,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("OwnerType");
 
-                    b.Property<int>("PersonId")
+                    b.Property<int?>("PersonsId")
                         .HasColumnType("int");
 
                     b.Property<int>("VehicleId")
@@ -135,7 +137,7 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("PK_VehiclesPersons");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonsId");
 
                     b.HasIndex("VehicleId");
 
@@ -144,19 +146,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.VehiclesPersons", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.Persons", "Persons")
+                    b.HasOne("Infrastructure.Entities.Persons", null)
                         .WithMany("VehiclesPersons")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PersonsId");
 
                     b.HasOne("Infrastructure.Entities.Vehicles", "Vehicles")
                         .WithMany("VehiclesPersons")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Persons");
 
                     b.Navigation("Vehicles");
                 });

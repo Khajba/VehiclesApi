@@ -14,14 +14,19 @@ namespace Infrastructure.Context.UnitOfWork
 
         public IVehiclesRepository Vehicles { get; private set; }
 
+        public IPersonsRepository Persons { get; private set; }
+
+        public IVehiclesPersonsRepository VehiclesPersons { get; private set; }        
+
         public UnitOfWork(VehiclesContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger("logs");
-
             Vehicles = new VehiclesRepository(context, _logger);
+            Persons = new PersonsRepository(context, _logger);
+            VehiclesPersons = new VehiclesPersonsRepository(context, _logger);
         }
-
+         
         public async Task CompleteAsync()
         {
             await _context.SaveChangesAsync();

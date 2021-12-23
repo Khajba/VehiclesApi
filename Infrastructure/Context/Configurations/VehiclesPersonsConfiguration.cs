@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Context
 {
-    public class VehiclesPersonsConfiguration : IEntityTypeConfiguration<VehiclesPersons>
+    public class VehiclesPersonsConfiguration : IEntityTypeConfiguration<VehiclesPersons> 
     {
         public void Configure(EntityTypeBuilder<VehiclesPersons> builder)
         {
             // Specify Table name and Schema
-            builder.ToTable("Vehicles", "dbo");
+            builder.ToTable("VehiclesPersons", "dbo");
 
             // Specify primary key 
             // Primary key constraint name is also specified
@@ -20,6 +20,12 @@ namespace Infrastructure.Context
             builder.HasOne(x => x.Vehicles)
                 .WithMany(e=>e.VehiclesPersons)
                 .HasForeignKey(t => t.VehicleId);
+
+            // Required and MaxLength
+            builder.HasOne(x => x.Persons)
+                .WithMany(e => e.VehiclesPersons)
+                .HasForeignKey(t => t.PersonId);
+
 
             builder.Property(x => x.OwnerType)
                 .HasMaxLength(50)

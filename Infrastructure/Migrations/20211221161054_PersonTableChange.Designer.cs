@@ -4,14 +4,16 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VehiclesContext))]
-    partial class VehiclesContextModelSnapshot : ModelSnapshot
+    [Migration("20211221161054_PersonTableChange")]
+    partial class PersonTableChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,16 +128,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("OwnerType");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id")
                         .HasName("PK_VehiclesPersons");
-
-                    b.HasIndex("PersonId");
 
                     b.HasIndex("VehicleId");
 
@@ -144,26 +141,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Entities.VehiclesPersons", b =>
                 {
-                    b.HasOne("Infrastructure.Entities.Persons", "Persons")
-                        .WithMany("VehiclesPersons")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Infrastructure.Entities.Vehicles", "Vehicles")
                         .WithMany("VehiclesPersons")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Persons");
-
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.Persons", b =>
-                {
-                    b.Navigation("VehiclesPersons");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.Vehicles", b =>

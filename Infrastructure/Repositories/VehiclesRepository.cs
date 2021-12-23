@@ -27,17 +27,20 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public override async Task<Vehicles> GetById(int id)
+        public  override async Task<Vehicles> GetById(int id)
         {
-            try
-            {
                 return await dbSet.FirstOrDefaultAsync(e=>e.Id == id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "{Repo} All function error", typeof(VehiclesRepository));
-                return new Vehicles();
-            }
+        }
+
+        public  async Task<Vehicles> GetByVinCode(string vincode)
+        {
+                return await dbSet.FirstOrDefaultAsync(e => e.VinCode == vincode);
+        }
+
+        public async Task<Vehicles> GetFullInfoByVinCode(string vincode)
+        {
+
+            return await dbSet.Include(e=>e.VehiclesPersons).ThenInclude(e=>e.Persons).FirstOrDefaultAsync(e => e.VinCode == vincode);
         }
     }
 }

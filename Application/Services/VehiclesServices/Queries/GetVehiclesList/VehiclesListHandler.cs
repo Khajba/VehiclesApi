@@ -19,6 +19,7 @@ namespace Application.Services.VehiclesServices.Queries.GetVehiclesList
         {
 
             var model = await _unitOfWork.Vehicles.All();
+            
             var result = model.ToList().Select(e => new VehiclesModel
             {
                 Id = e.Id,

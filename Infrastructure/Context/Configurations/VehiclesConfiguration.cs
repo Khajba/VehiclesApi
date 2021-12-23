@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Context
 {
-    public class VehiclesEntityTypeConfiguration : IEntityTypeConfiguration<Vehicles>
+    public class VehiclesConfiguration : IEntityTypeConfiguration<Vehicles>
     {
         public void Configure(EntityTypeBuilder<Vehicles> builder)
         {

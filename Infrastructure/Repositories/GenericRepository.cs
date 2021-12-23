@@ -12,37 +12,50 @@ namespace Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected VehiclesContext context;
+        protected VehiclesContext _context;
         internal DbSet<T> dbSet;
         protected readonly ILogger _logger;
 
         public GenericRepository(VehiclesContext context, ILogger logger)
         {
-            this.context = context;
+            this._context = context;
             this.dbSet = context.Set<T>();
             this._logger = logger;
 
         }
 
-        public virtual Task<IEnumerable<T>> All()
+        public virtual async Task<IEnumerable<T>> All()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().ToListAsync();
         }
 
         public virtual async Task<T> GetById(int id)
         {
             return await dbSet.FindAsync(id);
         }
+      
 
         public virtual async Task<bool> Add(T entity)
         {
-            await dbSet.AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);
             return true;
         }
 
-        public virtual async Task<bool> Delete(int id)
+        public void AddRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().AddRange(entities);
+        }
+
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+        }
+
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            _context.Set<T>().RemoveRange(entities);
         }
 
         public virtual Task<bool> Update(T entity)

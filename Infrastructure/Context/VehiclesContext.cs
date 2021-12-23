@@ -10,20 +10,23 @@ namespace Infrastructure.Context
         {
         }
 
-        public DbSet<Vehicles> Vehicles { get; set; }        
+        public DbSet<Vehicles> Vehicles { get; set; }
+        public DbSet<VehiclesPersons> VehiclesPersons { get; set; }
+        public DbSet<Persons> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Method 1 - Call configure method
-            var vehiclesConfigurations = new VehiclesEntityTypeConfiguration();
+            var vehiclesConfigurations = new VehiclesConfiguration();
             vehiclesConfigurations.Configure(modelBuilder.Entity<Vehicles>());
 
-            // Method 2 - ApplyConfiguration method
-            // modelBuilder.ApplyConfiguration(studentConfigurations);
+            var vehiclesPersonsConfigurations = new VehiclesPersonsConfiguration();
+            vehiclesPersonsConfigurations.Configure(modelBuilder.Entity<VehiclesPersons>());
 
-            //Method 3 - Apply all from an assembly
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(VehiclesContext).Assembly);
+            var personsConfigurations = new PersonsConfiguration();
+            personsConfigurations.Configure(modelBuilder.Entity<Persons>());
         }
      }
    }
+
 

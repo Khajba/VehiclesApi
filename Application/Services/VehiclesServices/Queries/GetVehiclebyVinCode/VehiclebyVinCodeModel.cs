@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Infrastructure.Entities
+namespace Application.Services.VehiclesServices.Queries.GetVehiclebyId
 {
-    public class Vehicles
+   public class VehicleByvinCodeModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string MarkEng { get; set; }
         public string MarkGeo { get; set; }
@@ -16,7 +14,5 @@ namespace Infrastructure.Entities
         public string VinCode { get; set; }
         public string VehicleNumber { get; set; }
         public string Color { get; set; }
-        public IList<VehiclesPersons> VehiclesPersons { get; set; }
-
     }
 }
